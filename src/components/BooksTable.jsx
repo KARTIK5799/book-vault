@@ -1,47 +1,99 @@
 import React, { useState } from "react";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaEdit, FaTrash } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useBooks } from "../context/useBooks";
 
 const BooksTable = () => {
-  const { filteredBooks, genre, setGenre, status, setStatus } = useBooks(); 
+  const {
+    filteredBooks,
+    genre,
+    setGenre,
+    status,
+    setStatus,
+    genres,
+    statuses,
+    addBook,
+    editBook,
+    deleteBook,
+  } = useBooks();
+
   const [openDropdown, setOpenDropdown] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 5;
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
 
-  const genres = [
-    "All Genres",
-    "Fiction",
-    "Non-Fiction",
-    "Sci-Fi",
-    "Fantasy",
-    "Biography",
-    "History",
-  ];
-  const statuses = ["All Status", "Available", "Borrowed", "Reserved"];
+  const [formData, setFormData] = useState({
+    name: "",
+    author: "",
+    genre: genres[1] || "",
+    published: "",
+    status: statuses[1] || "Available",
+  });
+
+  const booksPerPage = 10;
 
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
-
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
+  // Handlers for modal forms
+  const handleOpenAdd = () => {
+    setFormData({
+      name: "",
+      author: "",
+      genre: genres[1] || "",
+      published: "",
+      status: statuses[1] || "Available",
+    });
+    setShowAddModal(true);
+  };
+
+  const handleOpenEdit = (book) => {
+    setSelectedBook(book);
+    setFormData({ ...book });
+    setShowEditModal(true);
+  };
+
+  const handleOpenDelete = (book) => {
+    setSelectedBook(book);
+    setShowDeleteModal(true);
+  };
+
+  const handleSubmitAdd = () => {
+    addBook(formData);
+    setShowAddModal(false);
+  };
+
+  const handleSubmitEdit = () => {
+    editBook({ ...selectedBook, ...formData });
+    setShowEditModal(false);
+  };
+
+  const handleSubmitDelete = () => {
+    deleteBook(selectedBook.id);
+    setShowDeleteModal(false);
+  };
+
   return (
     <div className="flex flex-col gap-6 w-full">
+      {/* Header */}
       <div className="add-book-section w-full flex flex-col md:flex-row justify-between items-center gap-3 p-4 ">
         <div className="book-lib text-center md:text-left">
           <h3 className="text-2xl font-bold">Book Library</h3>
           <p className="text-gray-600">Manage your book collection here</p>
         </div>
-
         <div className="add-book">
-          <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-md shadow transition">
+          <button
+            onClick={handleOpenAdd}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-md shadow transition"
+          >
             + Add New Book
           </button>
         </div>
@@ -129,7 +181,6 @@ const BooksTable = () => {
               <div className="hidden md:block">{book.author}</div>
               <div className="hidden md:block">{book.genre}</div>
               <div className="hidden md:block">{book.published}</div>
-
               <div className="mt-2 md:mt-0">
                 <span
                   className={`px-3 py-1 text-xs font-medium rounded-full ${
@@ -143,18 +194,22 @@ const BooksTable = () => {
                   {book.status}
                 </span>
               </div>
-
               <div className="flex gap-3 mt-3 md:mt-0 justify-start md:justify-center">
-                <button className="p-2 rounded-md bg-yellow-100 hover:bg-yellow-200 text-yellow-700 transition">
+                <button
+                  onClick={() => handleOpenEdit(book)}
+                  className="p-2 rounded-md bg-yellow-100 hover:bg-yellow-200 text-yellow-700 transition"
+                >
                   <FaEdit />
                 </button>
-                <button className="p-2 rounded-md bg-red-100 hover:bg-red-200 text-red-700 transition">
+                <button
+                  onClick={() => handleOpenDelete(book)}
+                  className="p-2 rounded-md bg-red-100 hover:bg-red-200 text-red-700 transition"
+                >
                   <FaTrash />
                 </button>
               </div>
             </div>
           ))}
-
           {currentBooks.length === 0 && (
             <div className="px-6 py-4 text-gray-500">No books found.</div>
           )}
@@ -191,6 +246,103 @@ const BooksTable = () => {
           Next
         </button>
       </div>
+
+      {/* Add/Edit Modal */}
+      {(showAddModal || showEditModal) && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 p-6">
+            <h2 className="text-xl font-semibold mb-4">
+              {showAddModal ? "Add New Book" : "Edit Book"}
+            </h2>
+            <div className="flex flex-col gap-3">
+              <input
+                type="text"
+                placeholder="Book Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="border px-3 py-2 rounded-md"
+              />
+              <input
+                type="text"
+                placeholder="Author"
+                value={formData.author}
+                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                className="border px-3 py-2 rounded-md"
+              />
+              <select
+                value={formData.genre}
+                onChange={(e) => setFormData({ ...formData, genre: e.target.value })}
+                className="border px-3 py-2 rounded-md"
+              >
+                {genres.slice(1).map((g) => (
+                  <option key={g} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                placeholder="Published Year"
+                value={formData.published}
+                onChange={(e) => setFormData({ ...formData, published: e.target.value })}
+                className="border px-3 py-2 rounded-md"
+              />
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                className="border px-3 py-2 rounded-md"
+              >
+                {statuses.slice(1).map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                onClick={() => {
+                  setShowAddModal(false);
+                  setShowEditModal(false);
+                }}
+                className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={showAddModal ? handleSubmitAdd : handleSubmitEdit}
+                className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500"
+              >
+                {showAddModal ? "Add" : "Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 p-6 text-center">
+            <h2 className="text-xl font-semibold mb-4">Delete Book</h2>
+            <p className="mb-4">Are you sure you want to delete "{selectedBook.name}"?</p>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmitDelete}
+                className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-500"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

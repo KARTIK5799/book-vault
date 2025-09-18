@@ -3,7 +3,7 @@ import AppSideBar from "./components/AppSideBar";
 import AppHeader from "./components/AppHeader";
 import DashboardPage from "./pages/DashboardPage";
 import BooksPage from "./pages/BooksPage";
-import ReportsPage from "./pages/ReportsPage";
+// import ReportsPage from "./pages/ReportsPage";
 import { Routes,Route,Navigate } from "react-router-dom";
 
 const Layout = () => {
@@ -18,10 +18,10 @@ const Layout = () => {
 
         <div className="flex-1 overflow-auto p-4 bg-gray-50">
             <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/" element={<DashboardPage />} />
+        
           <Route path="/books" element={<BooksPage />} />
-           <Route path="/reports" element={<ReportsPage />} />
+           {/* <Route path="/reports" element={<ReportsPage />} /> */}
          
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>

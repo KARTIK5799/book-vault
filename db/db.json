@@ -23,6 +23,70 @@
       "genre": "Fantasy",
       "published": "2023",
       "status": "Available"
+    },
+    {
+      "id": "917b",
+      "name": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "genre": "History",
+      "published": "2011",
+      "status": "Borrowed"
+    },
+    {
+      "id": "e644",
+      "name": "Atomic Habits",
+      "author": "James Clear",
+      "genre": "Fiction",
+      "published": "2018",
+      "status": "Reserved"
+    },
+    {
+      "id": "ad77",
+      "name": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "genre": "Fantasy",
+      "published": "2008",
+      "status": "Borrowed"
+    },
+    {
+      "id": "4012",
+      "name": "The Great Gatsby",
+      "author": "j.s alphha",
+      "genre": "History",
+      "published": "1988",
+      "status": "Borrowed"
+    },
+    {
+      "id": "acac",
+      "name": "Clean Code",
+      "author": "Clean Code",
+      "genre": "Fiction",
+      "published": "1233",
+      "status": "Reserved"
+    },
+    {
+      "id": "048f",
+      "name": "Code with me",
+      "author": "dodin",
+      "genre": "Fiction",
+      "published": "2009",
+      "status": "Available"
+    },
+    {
+      "id": "ee77",
+      "name": "sim sim",
+      "author": "js java",
+      "genre": "Fiction",
+      "published": "2004",
+      "status": "Available"
+    },
+    {
+      "id": "1198",
+      "name": "The Lean Startup",
+      "author": "Eric Ries",
+      "genre": "Fiction",
+      "published": "2007",
+      "status": "Reserved"
     }
   ]
 }

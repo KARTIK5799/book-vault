@@ -80,7 +80,7 @@ export const BooksProvider = ({ children }) => {
         body: JSON.stringify(newBook),
       });
       const data = await response.json();
-      setBooks([...books, data]);
+      setBooks([data,...books,]);
     } catch (err) {
       console.error("Failed to add book:", err);
     }

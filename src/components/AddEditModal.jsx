@@ -13,12 +13,12 @@ const AddEditModal = ({
   const [formData, setFormData] = useState({
     name: "",
     author: "",
-    genre: genres[1] || "", // default to first real genre
+    genre: genres[1] || "", 
     published: "",
-    status: statuses[1] || "Available", // default to first real status
+    status: statuses[1] || "Available", 
   });
 
-  // Populate form when editing
+ 
   useEffect(() => {
     if (showEditModal && selectedBook) setFormData({ ...selectedBook });
   }, [showEditModal, selectedBook]);
@@ -53,7 +53,7 @@ const AddEditModal = ({
             className="border px-3 py-2 rounded-md"
           />
 
-          {/* Genre Dropdown */}
+          
           <select
             value={formData.genre}
             onChange={(e) => setFormData({ ...formData, genre: e.target.value })}

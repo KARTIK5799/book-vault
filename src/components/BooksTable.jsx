@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useBooks } from "../context/useBooks";
 
 const BooksTable = () => {
-  const [genre, setGenre] = useState("All Genres");
-  const [status, setStatus] = useState("All Status");
+  const { filteredBooks, genre, setGenre, status, setStatus } = useBooks(); 
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [books, setBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 5;
@@ -29,51 +27,6 @@ const BooksTable = () => {
   };
 
 
-  useEffect(() => {
-    const dummyBooks = [
-      { id: 1, name: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Fiction", published: 1925, status: "Available" },
-      { id: 2, name: "To Kill a Mockingbird", author: "Harper Lee", genre: "Fiction", published: 1960, status: "Borrowed" },
-      { id: 3, name: "A Brief History of Time", author: "Stephen Hawking", genre: "Non-Fiction", published: 1988, status: "Available" },
-      { id: 4, name: "The Hobbit", author: "J.R.R. Tolkien", genre: "Fantasy", published: 1937, status: "Reserved" },
-      { id: 5, name: "Dune", author: "Frank Herbert", genre: "Sci-Fi", published: 1965, status: "Available" },
-      { id: 6, name: "Becoming", author: "Michelle Obama", genre: "Biography", published: 2018, status: "Available" },
-      { id: 7, name: "1984", author: "George Orwell", genre: "Fiction", published: 1949, status: "Borrowed" },
-      { id: 8, name: "Sapiens", author: "Yuval Noah Harari", genre: "Non-Fiction", published: 2011, status: "Available" },
-      { id: 9, name: "Harry Potter", author: "J.K. Rowling", genre: "Fantasy", published: 1997, status: "Available" },
-      { id: 10, name: "Foundation", author: "Isaac Asimov", genre: "Sci-Fi", published: 1951, status: "Reserved" },
-      { id: 11, name: "The Catcher in the Rye", author: "J.D. Salinger", genre: "Fiction", published: 1951, status: "Available" },
-      { id: 12, name: "Steve Jobs", author: "Walter Isaacson", genre: "Biography", published: 2011, status: "Borrowed" },
-      { id: 13, name: "The Lord of the Rings", author: "J.R.R. Tolkien", genre: "Fantasy", published: 1954, status: "Available" },
-      { id: 14, name: "Brave New World", author: "Aldous Huxley", genre: "Fiction", published: 1932, status: "Reserved" },
-      { id: 15, name: "Cosmos", author: "Carl Sagan", genre: "Non-Fiction", published: 1980, status: "Available" },
-      { id: 16, name: "The Martian", author: "Andy Weir", genre: "Sci-Fi", published: 2011, status: "Borrowed" },
-      { id: 17, name: "Alexander Hamilton", author: "Ron Chernow", genre: "History", published: 2004, status: "Available" },
-      { id: 18, name: "Pride and Prejudice", author: "Jane Austen", genre: "Fiction", published: 1813, status: "Available" },
-      { id: 19, name: "Educated", author: "Tara Westover", genre: "Biography", published: 2018, status: "Reserved" },
-      { id: 20, name: "The Silent Patient", author: "Alex Michaelides", genre: "Fiction", published: 2019, status: "Available" },
-    ];
-
-    setBooks(dummyBooks);
-    setFilteredBooks(dummyBooks);
-  }, []);
-
-  
-  useEffect(() => {
-    let filtered = books;
-
-    if (genre !== "All Genres") {
-      filtered = filtered.filter((book) => book.genre === genre);
-    }
-
-    if (status !== "All Status") {
-      filtered = filtered.filter((book) => book.status === status);
-    }
-
-    setFilteredBooks(filtered);
-    setCurrentPage(1); 
-  }, [genre, status, books]);
-
-
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
@@ -81,8 +34,7 @@ const BooksTable = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Header */}
-      <div className="add-book-section w-full flex flex-col md:flex-row justify-between items-center gap-3 p-4 bg-white shadow rounded-lg">
+      <div className="add-book-section w-full flex flex-col md:flex-row justify-between items-center gap-3 p-4 ">
         <div className="book-lib text-center md:text-left">
           <h3 className="text-2xl font-bold">Book Library</h3>
           <p className="text-gray-600">Manage your book collection here</p>
@@ -95,13 +47,13 @@ const BooksTable = () => {
         </div>
       </div>
 
-     
+      {/* Filters */}
       <div className="table-filter w-full flex flex-wrap gap-5 border rounded-lg border-gray-200 items-center px-6 py-4 bg-white shadow">
         <div className="flex gap-2 items-center text-gray-700 font-medium">
           <FaFilter /> Filter
         </div>
 
-     
+        {/* Genre Dropdown */}
         <div className="relative">
           <button
             onClick={() => toggleDropdown("genre")}
@@ -128,7 +80,7 @@ const BooksTable = () => {
           )}
         </div>
 
-      
+        {/* Status Dropdown */}
         <div className="relative">
           <button
             onClick={() => toggleDropdown("status")}
@@ -156,9 +108,9 @@ const BooksTable = () => {
         </div>
       </div>
 
-
-      <div className="table bg-white shadow rounded-lg overflow-hidden w-full">
-        <div className="hidden md:grid grid-cols-6 bg-gray-100 text-gray-800 font-semibold text-sm px-6 py-3">
+      {/* Table */}
+      <div className="table bg-white shadow rounded-lg overflow-hidden w-full border border-gray-300">
+        <div className="hidden md:grid grid-cols-6 bg-gray-100 text-gray-800 font-semibold text-sm px-6 py-3 border-b border-gray-300">
           <div>Title</div>
           <div>Author</div>
           <div>Genre</div>
@@ -209,7 +161,7 @@ const BooksTable = () => {
         </div>
       </div>
 
-
+      {/* Pagination */}
       <div className="pagination flex justify-center gap-3 py-4 text-gray-600 items-center">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

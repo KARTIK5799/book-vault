@@ -11,7 +11,7 @@ const AppHeader = () => {
           <FaSearch size={15} color="gray"/>
           <input
             type="text"
-            className="outline-none border-none"
+            className="outline-none border-none w-full"
             placeholder="Search..."
           />
         </div>

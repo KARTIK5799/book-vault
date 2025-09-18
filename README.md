@@ -70,32 +70,6 @@ It provides an intuitive UI for tracking books, managing availability, applying 
 
 ---
 
-## 📂 Project Structure
-
-```
-📦 book-vault
-├── 📂 src
-│   ├── 📂 components
-│   │   ├── AppSideBar.jsx
-│   │   ├── BooksTable.jsx
-│   │   ├── DashCard.jsx
-│   │   └── SkeletonLoader.jsx
-│   ├── 📂 context
-│   │   ├── BooksContext.jsx
-│   │   └── useBooks.js
-│   ├── 📂 pages
-│   │   ├── DashboardPage.jsx
-│   │   ├── BooksPage.jsx
-│   │   └── ReportsPage.jsx
-│   ├── App.jsx
-│   └── main.jsx
-├── db.json (for json-server)
-├── tailwind.config.js
-├── package.json
-└── README.md
-```
-
----
 
 ## ⚡ Installation & Setup
 
@@ -131,7 +105,7 @@ It provides an intuitive UI for tracking books, managing availability, applying 
 ## 🌐 Deployment
 
 This project is deployed on **Vercel**:
-👉 [BookVault Live](https://book-vault-ochre.vercel.app/dashboard)
+👉 [BookVault Live](https://book-vault-ochre.vercel.app)
 
 ---
 

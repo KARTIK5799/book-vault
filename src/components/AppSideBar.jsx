@@ -9,9 +9,8 @@ const AppSideBar = () => {
   const handleSidebar = () => setIsOpen(!isOpen);
 
   const menuItems = [
-    { name: "Dashboard", icon: <FaHome size={20} />, path: "/dashboard" },
+    { name: "Dashboard", icon: <FaHome size={20} />, path: "/" },
     { name: "Books", icon: <FaBookOpen size={20} />, path: "/books" },
-    { name: "Reports", icon: <FaRegChartBar size={20} />, path: "/reports" },
   ];
 
   return (

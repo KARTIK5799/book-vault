@@ -23,7 +23,7 @@ export const BooksProvider = ({ children }) => {
 
   const statuses = ["All Status", "Available", "Borrowed", "Reserved"];
 
-  // Fetch books from JSON server
+ 
   useEffect(() => {
     const fetchBooks = async () => {
       setLoading(true);
@@ -46,7 +46,7 @@ export const BooksProvider = ({ children }) => {
     fetchBooks();
   }, []);
 
-  // Filter books
+
   useEffect(() => {
     let result = books;
 
@@ -71,7 +71,7 @@ export const BooksProvider = ({ children }) => {
     setFilteredBooks(result);
   }, [search, genre, status, books]);
 
-  // CRUD functions
+  
   const addBook = async (newBook) => {
     try {
       const response = await fetch("http://localhost:5000/books", {

@@ -1,28 +1,28 @@
 {
   "books": [
     {
-      "id": "9f19",
-      "name": "To Kill a Mockingbird",
-      "author": "Harper Lee",
-      "genre": "Fiction",
-      "published": "1960",
-      "status": "Reserved"
-    },
-    {
       "id": "0a0e",
       "name": "1984",
       "author": "George Orwell",
       "genre": "Biography",
       "published": "1950",
-      "status": "Borrowed"
+      "status": "Available"
     },
     {
       "id": "9695",
       "name": "Pride and Prejudice",
       "author": "Jane Austen",
-      "genre": "Fiction",
+      "genre": "Sci-Fi",
       "published": "1813",
       "status": "Reserved"
+    },
+    {
+      "id": "7488",
+      "name": "The Alchemist",
+      "author": "kartik",
+      "genre": "Fantasy",
+      "published": "2023",
+      "status": "Available"
     }
   ]
 }
